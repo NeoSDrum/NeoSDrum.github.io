@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neofit Savov | AI & Tech Consulting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0f1e;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(255, 255, 255, 0.1);
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent: #10b981;
+            --accent-2: #3b82f6;
+            --gradient: linear-gradient(135deg, var(--accent), var(--accent-2));
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+            padding: 0 0 100px;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(10, 15, 30, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: var(--transition);
+        }
+        
+        header.scrolled {
+            background: rgba(10, 15, 30, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .hero {
+            padding: 150px 0 100px;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--light-text);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+        
+        .projects {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: var(--light-text);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Project Grid */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 32px;
+            margin: 40px 0 80px;
+            padding: 0 20px;
+            position: relative;
+        }
+        
+        @media (max-width: 768px) {
+            .project-grid {
+                grid-template-columns: 1fr;
+                padding: 0 16px;
+                gap: 24px;
+            }
+        }
+        
+        .project-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: var(--transition);
+            position: relative;
+            transform: translateY(0);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--border-radius);
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(16, 185, 129, 0.4));
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, 
+                  linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-8px);
+            background: var(--card-hover);
+        }
+        
+        .project-card:hover::before {
+            opacity: 1;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+            transition: var(--transition);
+            filter: grayscale(20%) contrast(1.1) brightness(0.9);
+            object-position: center;
+        }
+        
+        .project-card:hover .project-image {
+            transform: scale(1.03);
+        }
+        
+        .project-info {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-info h3 {
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            font-weight: 600;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        
+        .project-info p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.7;
+            flex-grow: 1;
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .tag {
+            background: rgba(99, 102, 241, 0.1);
+            color: #a5b4fc;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75em;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            transition: var(--transition);
+        }
+        
+        .tag:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .project-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .status-nda {
+            color: #f43f5e;
+            border-color: rgba(244, 63, 94, 0.2);
+        }
+        
+        .status-dev {
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+        
+        .status-funding {
+            color: #3b82f6;
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            .project-grid {
+                grid-template-columns: 1fr;
+                padding: 0 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header style="background-color: #2c3e50; padding: 15px 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="logo" style="font-size: 1.5em; font-weight: 600; color: #fff;">Neofit Savov</div>
+            <nav>
+                <ul style="display: flex; list-style: none; margin: 0; padding: 0;">
+                    <li style="margin-left: 30px;"><a href="#projects" style="color: #fff; text-decoration: none; font-weight: 500;">Projects</a></li>
+                    <li style="margin-left: 30px;"><a href="#contact" style="color: #fff; text-decoration: none; font-weight: 500;">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" style="padding: 180px 0 100px; position: relative; overflow: hidden; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="hero-content" style="max-width: 900px; margin: 0 auto; text-align: center;">
+                <div style="margin-bottom: 40px;">
+                    <h1 style="font-size: 3.5rem; font-weight: 800; margin-bottom: 24px; line-height: 1.2; color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+                        Neofit Savov's<br>AI & Tech Consulting
+                    </h1>
+                    <p style="font-size: 1.4rem; color: #e2e8f0; max-width: 700px; margin: 0 auto; font-weight: 400; letter-spacing: 0.3px;">
+                        Exploring the intersection of AI innovation and practical implementation
+                    </p>
+                </div>
+                
+                <!-- Personal Statement -->
+                <div style="max-width: 800px; margin: 0 auto; padding: 32px; background: rgba(255, 255, 255, 0.95); border-radius: var(--border-radius); box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                    <p style="font-size: 1.2rem; line-height: 1.8; color: #1e293b; font-style: italic; margin-bottom: 20px; position: relative; padding-left: 24px; border-left: 3px solid var(--accent);">
+                        I truly believe in learning by doing. My journey in AI began not with a paycheck, but with passion. I was invited by professionals who saw my curiosity and drive, and together we explored the world of AI—experimenting, building, failing and learning side by side.
+                    </p>
+                    <p style="font-size: 1.2rem; line-height: 1.8; color: #1e293b; font-style: italic; position: relative; padding-left: 24px; border-left: 3px solid var(--accent-2);">
+                        What started as passion projects soon became opportunities to grow, to face challenges, and to discover AI's real potential. Each step has inspired me more—showing me the true world of AI with its limitations and true power to create meaningful change. The more I learn, the more I'm driven by what's still possible.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- Subtle background pattern -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.1; background-image: radial-gradient(circle at 1px 1px, #e2e8f0 1px, transparent 0); background-size: 30px 30px;"></div>
+        <!-- Animated background elements -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.4;">
+            <div style="position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, rgba(0,0,0,0) 70%); top: 10%; left: 10%; filter: blur(40px);"></div>
+            <div style="position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, rgba(0,0,0,0) 70%); bottom: -20%; right: -10%; filter: blur(50px);"></div>
+        </div>
+    </section>
+    </section>
+
+    <section id="projects" class="projects" style="position: relative; padding: 60px 0 100px;">
+        <div class="container">
+            <div class="section-title" style="text-align: center; margin-bottom: 60px;">
+                <span style="display: inline-block; color: var(--accent); font-weight: 600; margin-bottom: 12px; letter-spacing: 1px; font-size: 0.9rem;">PORTFOLIO</span>
+                <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 16px; background: linear-gradient(to right, #fff, #a5b4fc); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Selected Projects</h2>
+                <p style="max-width: 600px; margin: 0 auto; color: var(--text-secondary);">A collection of projects where I've contributed my expertise in AI and technology strategy.</p>
+            </div>
+            
+            <div class="project-grid">
+                <!-- Project 1: Colima -->
+                <div class="project-card">
+                    <img src="images/PHOTO-2025-06-12-18-53-12.jpg" alt="Colima - Retrofitting Web Intercom" class="project-image">
+                    <div class="project-info">
+                        <h3>Colima - Smart Intercom System</h3>
+                        <p><strong>Role:</strong> Product Strategy Consultant<br>
+                        Advised on a customer-commissioned project to develop a retrofitting solution that transforms traditional intercoms into smart, web-enabled systems. Provided strategic guidance on market research, MVP feature definition, and hardware/software integration to create a seamless user experience for the end customer.</p>
+                        <div class="project-tags">
+                            <span class="tag">Product Strategy</span>
+                            <span class="tag">Market Research</span>
+                            <span class="tag">User Experience</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2: Fuego -->
+                <div class="project-card">
+                    <img src="images/PHOTO-2025-06-12-18-53-12 (1).jpg" alt="Fuego - Fire Dimensions Tool" class="project-image">
+                    <div class="project-info">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <h3>Fuego - Architectural Compliance</h3>
+                            <span style="background-color: #e2f0fd; color: #004085; padding: 3px 8px; border-radius: 4px; font-size: 0.8em; font-weight: 500;">Seeking VC Funding</span>
+                        </div>
+                        <p><strong>Role:</strong> Product Development Consultant<br>
+                        Advised a startup developing an automated dimensioning tool for fire safety compliance. Provided strategic guidance on user research, persona development, and product roadmap to position the company for successful VC funding. Helped refine their value proposition and go-to-market strategy.</p>
+                        <div class="project-tags">
+                            <span class="tag">User Research</span>
+                            <span class="tag">Product Roadmapping</span>
+                            <span class="tag">Regulatory Compliance</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3: Kozhuh -->
+                <div class="project-card">
+                    <img src="images/PHOTO-2025-06-12-18-53-12 (2).jpg" alt="Kozhuh - Cold Storage Optimization" class="project-image">
+                    <div class="project-info">
+                        <h3>Kozhuh - Cold Chain Management</h3>
+                        <p><strong>Role:</strong> Implementation Advisor<br>
+                        Provided strategic guidance for a customer implementation of an AI-powered cold chain management system. Advised on KPI definition, user workflow optimization, and technical team coordination to ensure successful deployment and adoption by the end customer in the cold storage sector.</p>
+                        <div class="project-tags">
+                            <span class="tag">Product Vision</span>
+                            <span class="tag">Stakeholder Management</span>
+                            <span class="tag">KPI Definition</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 4: Inventory Management -->
+                <div class="project-card">
+                    <img src="images/PHOTO-2025-06-12-18-53-12 (3).jpg" alt="Smart Inventory Management" class="project-image">
+                    <div class="project-info">
+                        <h3>Smart Inventory Management</h3>
+                        <p><strong>Role:</strong> Product Strategy Consultant<br>
+                        Advised on the evolution of the Kozhuh platform into a comprehensive inventory management solution. Guided the expansion of capabilities to include advanced computer vision for automated inventory tracking. Provided expertise in feature prioritization and user experience design to enhance the platform's value proposition.</p>
+                        <div class="project-tags">
+                            <span class="tag">Agile Product Management</span>
+                            <span class="tag">User Stories</span>
+                            <span class="tag">Feature Prioritization</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 5: StorPool Internal KB -->
+                <div class="project-card">
+                    <img src="images/rag kb storpool.png" alt="StorPool Internal KB & RAG System" class="project-image">
+                    <div class="project-info">
+                        <h3>StorPool - Internal KB & RAG System</h3>
+                        <p>Led the analysis and optimization of internal support processes by implementing a Retrieval-Augmented Generation (RAG) based knowledge base. Streamlined support workflows, reduced resolution times, and improved knowledge sharing across the support team through intelligent search and information retrieval.</p>
+                        <div class="project-tags">
+                            <span class="tag">Process Optimization</span>
+                            <span class="tag">Knowledge Management</span>
+                            <span class="tag">Support Enablement</span>
+                            <span class="tag">RAG Implementation</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 6: AI Learning Assistant (Stealth) -->
+                <div class="project-card">
+                    <img src="images/Screenshot 2025-09-08 162053.png" alt="AI Learning Assistant MVP" class="project-image">
+                    <div class="project-info">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <h3>AI Learning Assistant (Stealth Startup)</h3>
+                            <span style="background-color: #d4edda; color: #155724; padding: 3px 8px; border-radius: 4px; font-size: 0.8em; font-weight: 500;">In Development</span>
+                        </div>
+                        <p><strong>Role:</strong> Product Lead & Technical Guide<br>
+                        Currently leading the development of an AI-powered learning platform that connects educators with students through personalized tutoring. Created the MVP and now guiding the technical team in implementation, focusing on maintaining educational standards while enabling personalized learning experiences at scale.</p>
+                        <div class="project-tags">
+                            <span class="tag">EdTech</span>
+                            <span class="tag">AI/ML</span>
+                            <span class="tag">Product Strategy</span>
+                            <span class="tag">User Research</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 7: Dating App (Stealth) -->
+                <div class="project-card">
+                    <img src="images/stealth startup.png" alt="Dating App with AI Features" class="project-image">
+                    <div class="project-info">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <h3>Dating Platform (Stealth Startup)</h3>
+                            <span style="background-color: #f8d7da; color: #721c24; padding: 3px 8px; border-radius: 4px; font-size: 0.8em; font-weight: 500;">NDA</span>
+                        </div>
+                        <p><strong>Role:</strong> Product Strategy Consultant<br>
+                        Provided expert consultation on product-market fit and go-to-market strategy for an innovative dating platform. Advised on AI-powered matching features and user engagement strategies while ensuring compliance with all non-disclosure agreements.</p>
+                        <div class="project-tags">
+                            <span class="tag">Market Research</span>
+                            <span class="tag">GTM Strategy</span>
+                            <span class="tag">AI/ML</span>
+                            <span class="tag">NDA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" style="background-color: #2c3e50; color: #fff; padding: 60px 0 20px; margin-top: 40px; position: relative; z-index: 1;">
+        <div class="container" style="text-align: center;">
+            <p style="margin: 0 0 10px 0;">© 2025 Neofit Savov. All rights reserved.</p>
+            <p style="margin: 0;">Contact: <a href="mailto:neoniksavov@gmail.com" style="color: #3498db; text-decoration: none;">neoniksavov@gmail.com</a></p>
+        </div>
+    </footer>
+    <div class="confidentiality-notice" style="background-color: #1a1a2e; color: #fff; padding: 15px; text-align: center; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000; box-shadow: 0 -2px 15px rgba(0,0,0,0.2); font-size: 0.9rem; line-height: 1.5; pointer-events: none;">
+        <div class="container">
+            <p style="margin: 0; max-width: 1200px; margin: 0 auto;">
+                <strong>Confidentiality Notice:</strong> The information on this page is confidential and intended solely for the use of the individual or entity to whom it is addressed. Unauthorized use, disclosure, or copying is strictly prohibited.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
